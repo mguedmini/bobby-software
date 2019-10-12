@@ -106,32 +106,32 @@ void stop()
 
 void wiggleears()
 {
-  for (int i = ear_servo_min_position; i < ear_servo_max_position; i++) {
+  for (int i = ear_servo_min_position; i <= ear_servo_max_position; i++) {
     servo1.write(i);
     servo2.write(i);
     delay(10);
   }
-  for (int i = ear_servo_max_position; i > ear_servo_min_position; i--) {
+  for (int i = ear_servo_max_position; i >= ear_servo_min_position; i--) {
     servo1.write(i);
     servo2.write(i);
     delay(10);
   }
-  for (int i = ear_servo_min_position; i < ear_servo_max_position; i++) {
+  for (int i = ear_servo_min_position; i <= ear_servo_max_position; i++) {
     servo1.write(i);
     servo2.write(i);
     delay(10);
   }
-  for (int i = ear_servo_max_position; i > ear_servo_min_position; i--) {
+  for (int i = ear_servo_max_position; i >= ear_servo_min_position; i--) {
     servo1.write(i);
     servo2.write(i);
     delay(10);
   }
-  for (int i = ear_servo_min_position; i < ear_servo_max_position; i++) {
+  for (int i = ear_servo_min_position; i <= ear_servo_max_position; i++) {
     servo1.write(i);
     servo2.write(i);
     delay(10);
   }
-  for (int i = 105; i > ear_servo_min_position; i--) {
+  for (int i = ear_servo_max_position; i >= ear_servo_min_position; i--) {
     servo1.write(i);
     servo2.write(i);
     delay(10);
