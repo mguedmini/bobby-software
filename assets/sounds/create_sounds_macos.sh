@@ -1,11 +1,11 @@
 /bin/bash
 
 say -v Markus "Hallo"'!' -o hallo.aiff
-say -v Markus "Endlich alleine. Ich glaube, ich mache jetzt mal ein bisschen Yoga"'!' -o endlich_alleine.aiff
+say -v Markus "Endlich alleine. Ich glaube, ich mach jetzt mal ein bisschen Yoga"'!' -o endlich_alleine.aiff
 say -v Markus "Sitzhöhe erfasst" -o hoehe_erfasst.aiff
 say -v Markus "Zu viel Gezappel. Sitz erstmal still"'!' -o gezappel.aiff
 say -v Markus "Sei nicht dumm, sitz nicht krumm rum"'!' -o nicht_dumm_nicht_krumm.aiff
-say -v Markus "Wir kalibrieren neu"'!'" Setz dich aufrecht hin"'!' -o kalibrieren.aiff
+say -v Markus "Wir kalibrieren neu. Setz dich aufrecht hin"'!' -o kalibrieren.aiff
 
 # brew install lame
 lame -m m hallo.aiff hallo.mp3
