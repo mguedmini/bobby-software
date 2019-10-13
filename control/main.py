@@ -9,15 +9,16 @@ import os
 # wird benötigt um vergangene Sekunden zu berechnen
 import datetime
 
-# wird wegen der Initialisierung der externen Webcam benötigt (und ganz unten um Ausgaben bei Zustandswechseln zu bremsen)
+# wird zur Initialisierung der externen Webcam benötigt (und ganz unten um Ausgaben bei Zustandswechseln zu bremsen)
 from time import sleep
 
 # Anbindung an Arduino initialisieren, Beispiel von: https://playground.arduino.cc/Interfacing/Python
 import serial
 
-# Der Pfad war auch schon mal /dev/cu.usbmodem1411 (in der Arduino-IDE unter Port), ändert sich gelegentlich
+# Der Pfad war auch schon mal /dev/cu.usbmodem1411 (in der Arduino-IDE unter Port ersichtlich), ändert sich uU bei Reboot
 ser = serial.Serial('/dev/cu.usbmodem14101')
 
+# Funktionen zur Ansteuerung des Arduinos
 def macheYoga():
     ser.write(b'Y')
 def zeigeKalibriert():
@@ -38,6 +39,7 @@ zeigeNichtKalibriert()
 # Elemente sind Tupel aus y und y+h
 # Aktuell benutze ich nur den letzten/vorletzten Eintrag
 letztePositionGesicht = []
+anzahlLetzerPositionen = 5
 
 # Beispiele: 'FACE DETECTION USING OPENCV AND PYTHON: A BEGINNER’S GUIDE',
 # https://www.superdatascience.com/opencv-face-detection/
@@ -55,7 +57,7 @@ def erkenneGesicht():
 
     #load cascade classifier training file for haarcascade
     haar_face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
-    
+
     #let's detect multiscale (some images may be closer to camera than others) images
     faces = haar_face_cascade.detectMultiScale(gray_img, scaleFactor=1.1, minNeighbors=5);
 
@@ -65,14 +67,14 @@ def erkenneGesicht():
 
     if len(faces) == 0:
         # immer die letzten 5 aufheben, dann neues anhängen
-        if (len(letztePositionGesicht) > 5):
+        if (len(letztePositionGesicht) > anzahlLetzerPositionen):
             del letztePositionGesicht[0]
         letztePositionGesicht.append((None, None))
         return None,None
 
     for (x, y, w, h) in faces:
         # immer die letzten 5 aufheben, dann neues anhängen
-        if (len(letztePositionGesicht) > 5):
+        if (len(letztePositionGesicht) > anzahlLetzerPositionen):
             del letztePositionGesicht[0]
         letztePositionGesicht.append((y,y+h))
         return y,y+h
@@ -113,7 +115,6 @@ def setzeAktuellenZustand(neuerZustand):
 def groessereKopfbewegungErfolgt(y1, y2):
     global letztePositionGesicht
     (y1_alt,y2_alt) = letztePositionGesicht[-2]
-    #return abs(y1-y1_alt) > (0.1 * (y2_alt-y1_alt)) or (y2-y1) > 1.5* (y2_alt-y1_alt) or (y2-y1) < 0.75 * (y2_alt-y1_alt)
     verschiebung = (y1-y1_alt) / (y2_alt-y1_alt)
     print ("Kopfbewegung relativ zur letzten Position: " + str(verschiebung))
     return abs(verschiebung) > 0.25
@@ -190,7 +191,6 @@ while True:
             setzeAktuellenZustand(zustand1)
         elif laengerImZustandAls(4):
             kalibrierteGesichtshoehe = (y1, y2)
-            # siehe erste Antwort https://superuser.com/questions/598783/play-sound-on-mac-terminal
             audioausgabe("elevator-ding")
             audioausgabe("hoehe_erfasst")
             setzeAktuellenZustand(zustand5)
