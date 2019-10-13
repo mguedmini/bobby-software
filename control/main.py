@@ -3,7 +3,7 @@
 #import OpenCV library
 import cv2
 
-# os wird benötigt um Mac-Sprachausgabe-Kommando ("say") aufzurufen, auch für "Beep"
+# wird für die Audioausgabe benötigt
 import os
 
 # wird benötigt um vergangene Sekunden zu berechnen
@@ -77,7 +77,7 @@ def erkenneGesicht():
         letztePositionGesicht.append((y,y+h))
         return y,y+h
 
-def sprachausgabe(file):
+def audioausgabe(file):
     # https://stackoverflow.com/questions/89228/calling-an-external-command-in-python
     os.system('sox "../assets/sounds/'+ file +'.mp3" -d -q');
 
@@ -143,7 +143,7 @@ while True:
         zeigeNichtKalibriert()
         y1,y2 = erkenneGesicht()
         if y1 != None:
-            sprachausgabe("hallo")
+            audioausgabe("hallo")
             setzeAktuellenZustand(zustand2)
     elif aktuellerZustand == zustand2:
         zeigeNichtKalibriert()
@@ -157,11 +157,11 @@ while True:
         print("y2_alt: "+str(y2_alt))
 
         if y1 == None:
-            sprachausgabe("endlich_alleine")
+            audioausgabe("endlich_alleine")
             macheYoga()
             setzeAktuellenZustand(zustand1)
         elif laengerImZustandAls(5):
-            sprachausgabe("kalibrieren")
+            audioausgabe("kalibrieren")
             setzeAktuellenZustand(zustand3)
         elif groessereKopfbewegungErfolgt(y1,y2):
             print("zurück in 2")
@@ -174,7 +174,7 @@ while True:
         (y1_alt,y2_alt) = letztePositionGesicht[-1]
         y1,y2 = erkenneGesicht()
         if y1 == None:
-            sprachausgabe("endlich_alleine")
+            audioausgabe("endlich_alleine")
             macheYoga()
             setzeAktuellenZustand(zustand1)
         elif laengerImZustandAls(2):
@@ -185,26 +185,26 @@ while True:
         (y1_alt,y2_alt) = letztePositionGesicht[-1]
         y1,y2 = erkenneGesicht()
         if y1 == None:
-            sprachausgabe("endlich_alleine")
+            audioausgabe("endlich_alleine")
             macheYoga()
             setzeAktuellenZustand(zustand1)
         elif laengerImZustandAls(4):
             kalibrierteGesichtshoehe = (y1, y2)
             # siehe erste Antwort https://superuser.com/questions/598783/play-sound-on-mac-terminal
-            sprachausgabe("elevator-ding")
-            sprachausgabe("hoehe_erfasst")
+            audioausgabe("elevator-ding")
+            audioausgabe("hoehe_erfasst")
             setzeAktuellenZustand(zustand5)
         elif groessereKopfbewegungErfolgt(y1,y2):
-            sprachausgabe("gezappel")
+            audioausgabe("gezappel")
             setzeAktuellenZustand(zustand2)
         else:
-            sprachausgabe("beep");
+            audioausgabe("beep");
     elif aktuellerZustand == zustand5:
         zeigeKalibriert()
         (y1_alt,y2_alt) = letztePositionGesicht[-1]
         y1,y2 = erkenneGesicht()
         if y1 == None:
-            sprachausgabe("endlich_alleine")
+            audioausgabe("endlich_alleine")
             macheYoga()
             setzeAktuellenZustand(zustand1)
         elif groessereKopfbewegungErfolgt(y1, y2):
@@ -214,7 +214,7 @@ while True:
         (y1_alt,y2_alt) = letztePositionGesicht[-1]
         y1,y2 = erkenneGesicht()
         if y1 == None:
-            sprachausgabe("endlich_alleine")
+            audioausgabe("endlich_alleine")
             macheYoga()
             setzeAktuellenZustand(zustand1)
         elif groessereKopfbewegungErfolgt(y1, y2):
@@ -222,7 +222,7 @@ while True:
         elif laengerImZustandAls(10) and kopfpositionRelativKalibrierung(y1, y2) < 0.25:
             setzeAktuellenZustand(zustand6)
         elif laengerImZustandAls(10) and kopfpositionRelativKalibrierung(y1, y2) > -0.25:
-            sprachausgabe("nicht_dumm_nicht_krumm")
+            audioausgabe("nicht_dumm_nicht_krumm")
             setzeAktuellenZustand(zustand7)
         elif laengerImZustandAls(10):
             setzeAktuellenZustand(zustand5)
@@ -231,7 +231,7 @@ while True:
         (y1_alt,y2_alt) = letztePositionGesicht[-1]
         y1,y2 = erkenneGesicht()
         if y1 == None:
-            sprachausgabe("endlich_alleine")
+            audioausgabe("endlich_alleine")
             macheYoga()
             setzeAktuellenZustand(zustand1)
         elif groessereKopfbewegungErfolgt(y1, y2):
@@ -239,14 +239,14 @@ while True:
         elif laengerImZustandAls(10) and kopfpositionRelativKalibrierung(y1, y2) < 0.25:
             setzeAktuellenZustand(zustand8)
         elif laengerImZustandAls(10):
-            sprachausgabe("kalibrieren_erneut")
+            audioausgabe("kalibrieren_erneut")
             setzeAktuellenZustand(zustand3)
     elif aktuellerZustand == zustand8:
         zeigeNichtKalibriert()
         (y1_alt,y2_alt) = letztePositionGesicht[-1]
         y1,y2 = erkenneGesicht()
         if y1 == None:
-            sprachausgabe("endlich_alleine")
+            audioausgabe("endlich_alleine")
             macheYoga()
             setzeAktuellenZustand(zustand1)
 
