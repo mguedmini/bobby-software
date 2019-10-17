@@ -4,7 +4,9 @@
 import cv2
 
 # wird für die Audioausgabe benötigt
-import os
+#import os
+import subprocess
+
 
 # wird benötigt um vergangene Sekunden zu berechnen
 import datetime
@@ -49,7 +51,7 @@ def erkenneGesicht():
     global letztePositionGesicht
 
     # ein Bild von der Webcam laden
-    ret_val, img = cam.read() #statt mit
+    ret_val, img = cam.read()
 
     # Code von 'FACE DETECTION USING OPENCV AND PYTHON: A BEGINNER’S GUIDE':
     #convert the test image to gray image as opencv face detector expects gray images
@@ -81,7 +83,10 @@ def erkenneGesicht():
 
 def audioausgabe(file):
     # https://stackoverflow.com/questions/89228/calling-an-external-command-in-python
-    os.system('sox "../assets/sounds/'+ file +'.mp3" -d -q');
+    #os.system('sox "../assets/sounds/'+ file +'.mp3" -d -q');
+	subprocess.run(["sox",  "../assets/sounds/"+ file +".mp3", "-d", "-q"])
+
+
 
 ###
 
